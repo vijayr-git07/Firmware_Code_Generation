@@ -4,7 +4,7 @@
  *
  * Controls the L298N H-bridge via:
  *   - PB0 (IN1) and PB1 (IN2) for direction
- *   - TIM3 CH1 PWM for motor enable/speed
+ *   - TIM3 CH1 PWM (on PC6) for motor enable/speed
  *
  * Direction truth table:
  *   Forward (open)  : IN1 = RESET, IN2 = SET
@@ -40,7 +40,7 @@ static uint8_t motor_direction    = MOTOR_DIR_FORWARD;
 
 void motor_driver_init(void)
 {
-    /* Ensure safe stopped state */
+    /* Ensure safe stopped state (SWE-REQ-034, SWE-REQ-047) */
     HAL_GPIO_WritePin(MOTOR_IN1_PORT, MOTOR_IN1_PIN, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(MOTOR_IN2_PORT, MOTOR_IN2_PIN, GPIO_PIN_RESET);
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
@@ -67,7 +67,7 @@ void motor_driver_set_direction(uint8_t direction)
     }
     else
     {
-        /* Invalid direction — stop for safety */
+        /* Invalid direction -- stop for safety */
         HAL_GPIO_WritePin(MOTOR_IN1_PORT, MOTOR_IN1_PIN, GPIO_PIN_RESET);
         HAL_GPIO_WritePin(MOTOR_IN2_PORT, MOTOR_IN2_PIN, GPIO_PIN_RESET);
     }

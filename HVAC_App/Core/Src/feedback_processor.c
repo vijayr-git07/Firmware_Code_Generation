@@ -4,6 +4,14 @@
  *
  * Acquires ADC1 CH0 samples via polling, validates the reading against
  * the coarse position table, and maps it to a logical flap position.
+ *
+ * Coarse Position Detection Table:
+ *   Position 0 : ADC > 4000
+ *   Position 1 : 3750 -- 4000
+ *   Position 2 : 3480 -- 3750
+ *   Position 3 : 2500 -- 3480
+ *   Position 4 : 1000 -- 2500
+ *   Position 5 : 0    -- 1000
  */
 
 #include "feedback_processor.h"
@@ -15,14 +23,7 @@
 extern ADC_HandleTypeDef hadc1;
 
 /* ---------------------------------------------------------------------------
- * Module constants — Coarse Position Detection Table
- *
- * Position 0 : ADC > 4000
- * Position 1 : 3750 .. 4000
- * Position 2 : 3480 .. 3750
- * Position 3 : 2500 .. 3480
- * Position 4 : 1000 .. 2500
- * Position 5 : 0    .. 1000
+ * Module constants
  * -----------------------------------------------------------------------*/
 #define COARSE_POS0_MIN   4001U
 #define COARSE_POS0_MAX   4095U
@@ -125,7 +126,7 @@ void feedback_processor_update(void)
     HAL_ADC_Stop(&hadc1);
 
     /* Validate range */
-    if (adc_raw > ADC_MAX_VALUE)
+    if (adc_raw > (uint32_t)ADC_MAX_VALUE)
     {
         feedback_valid_flag = 0U;
         return;
@@ -143,7 +144,7 @@ void feedback_processor_update(void)
     }
     else
     {
-        /* ADC value falls outside all coarse ranges — invalid */
+        /* ADC value falls outside all coarse ranges -- invalid */
         feedback_valid_flag = 0U;
     }
 }

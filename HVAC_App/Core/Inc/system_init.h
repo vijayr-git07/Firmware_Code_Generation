@@ -9,8 +9,6 @@
 #ifndef SYSTEM_INIT_H
 #define SYSTEM_INIT_H
 
-#include <stdint.h>
-
 /**
  * @brief  Initialize all application-layer modules.
  *         Ensures motor is in safe stopped state, reads initial

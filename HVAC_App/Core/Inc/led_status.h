@@ -9,7 +9,6 @@
 #ifndef LED_STATUS_H
 #define LED_STATUS_H
 
-#include "stm32f4xx_hal.h"
 #include <stdint.h>
 
 /**
@@ -21,7 +20,7 @@ void led_status_init(void);
 /**
  * @brief  Update position LED indication.
  *         Activates the LED corresponding to the given position.
- *         Position 0 has no dedicated LED — all position LEDs are off.
+ *         Position 0 has no dedicated LED -- all position LEDs are off.
  *         Only one position LED is active at a time.
  * @param  position  Logical flap position (0-5).
  */

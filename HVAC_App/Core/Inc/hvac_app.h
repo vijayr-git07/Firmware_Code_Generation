@@ -22,8 +22,9 @@ void hvac_app_init(void);
  *         Coordinates the runtime sequence:
  *           1. Process UART commands
  *           2. Update ADC feedback
- *           3. Execute flap control logic
- *         Returns to caller — contains no infinite loop.
+ *           3. Apply new target if valid command received
+ *           4. Execute flap control logic
+ *         Returns to caller -- contains no infinite loop.
  */
 void hvac_app_task(void);
 

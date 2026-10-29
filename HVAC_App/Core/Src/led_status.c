@@ -3,12 +3,12 @@
  * @brief   LED Status Handler module implementation for HVAC flap control.
  *
  * LED mapping:
- *   PC0 — Power LED (always ON during runtime)
- *   PC1 — Position 1 LED
- *   PC2 — Position 2 LED
- *   PC3 — Position 3 LED
- *   PC4 — Position 4 LED
- *   PC5 — Position 5 LED
+ *   PC0 -- Power LED (always ON during runtime)
+ *   PC1 -- Position 1 LED
+ *   PC2 -- Position 2 LED
+ *   PC3 -- Position 3 LED
+ *   PC4 -- Position 4 LED
+ *   PC5 -- Position 5 LED
  *
  * Position 0 (fully closed) has no dedicated LED.
  */
@@ -63,7 +63,7 @@ static void turn_off_all_position_leds(void)
 
 void led_status_init(void)
 {
-    /* Turn on power LED */
+    /* Turn on power LED (SWE-REQ-035) */
     HAL_GPIO_WritePin(POWER_LED_PORT, POWER_LED_PIN, GPIO_PIN_SET);
 
     /* Turn off all position LEDs */
@@ -74,7 +74,19 @@ void led_status_init(void)
 
 void led_status_update(uint8_t position)
 {
-    /* Turn off all position LEDs first (one-active rule) */
+    /* Validate input range */
+    if (position > 5U)
+    {
+        return;
+    }
+
+    /* Only update if position has changed (SWE-REQ-038) */
+    if (position == current_led_state)
+    {
+        return;
+    }
+
+    /* Turn off all position LEDs first (one-active rule, SWE-REQ-037) */
     turn_off_all_position_leds();
 
     if ((position >= 1U) && (position <= 5U))
@@ -83,7 +95,7 @@ void led_status_update(uint8_t position)
          * Position 1 -> index 0 (PC1), Position 5 -> index 4 (PC5) */
         HAL_GPIO_WritePin(POS_LED_PORT, position_led_pins[position - 1U], GPIO_PIN_SET);
     }
-    /* Position 0: no dedicated LED — all position LEDs remain off */
+    /* Position 0: no dedicated LED -- all position LEDs remain off */
 
     current_led_state = position;
 }

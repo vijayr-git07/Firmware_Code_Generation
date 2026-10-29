@@ -52,9 +52,9 @@ void command_parser_process(void)
             latest_command     = rx_byte - CMD_POSITION_MIN;  /* 0..5 */
             command_valid_flag = 1U;
         }
-        /* else: invalid command — silently ignored */
+        /* else: invalid command -- silently ignored (SWE-REQ-013) */
     }
-    /* else: no data or error — do nothing */
+    /* else: no data or error -- do nothing */
 }
 
 uint8_t command_parser_get_latest(uint8_t *p_position)

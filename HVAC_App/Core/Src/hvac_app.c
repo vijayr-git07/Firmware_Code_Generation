@@ -29,13 +29,13 @@ void hvac_app_task(void)
 {
     uint8_t target_pos = 0U;
 
-    /* 1. Poll UART for new commands */
+    /* 1. Poll UART for new commands (SWE-REQ-015) */
     command_parser_process();
 
-    /* 2. Acquire ADC feedback and update position */
+    /* 2. Acquire ADC feedback and update position (SWE-REQ-024) */
     feedback_processor_update();
 
-    /* 3. If a valid command is available, set the new target */
+    /* 3. If a valid command is available, set the new target (SWE-REQ-016) */
     if (command_parser_get_latest(&target_pos) != 0U)
     {
         flap_control_set_target(target_pos);

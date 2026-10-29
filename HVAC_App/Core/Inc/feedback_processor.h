@@ -9,7 +9,6 @@
 #ifndef FEEDBACK_PROCESSOR_H
 #define FEEDBACK_PROCESSOR_H
 
-#include "stm32f4xx_hal.h"
 #include <stdint.h>
 
 /**

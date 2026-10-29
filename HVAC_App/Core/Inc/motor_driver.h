@@ -9,10 +9,9 @@
 #ifndef MOTOR_DRIVER_H
 #define MOTOR_DRIVER_H
 
-#include "stm32f4xx_hal.h"
 #include <stdint.h>
 
-/** Motor direction enumeration */
+/** Motor direction constants */
 #define MOTOR_DIR_FORWARD   ((uint8_t)0U)  /* Open direction  : IN1=RESET, IN2=SET   */
 #define MOTOR_DIR_REVERSE   ((uint8_t)1U)  /* Close direction : IN1=SET,   IN2=RESET */
 
